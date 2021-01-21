@@ -67,13 +67,16 @@ export interface PlaidConfig {
   apiVersion?: string;
   clientName?: string;
   env: string;
-  key: string;
+  key?: string;
   onLoad?: Function;
   onSuccess: Function;
   onExit: Function;
   onEvent?: Function;
   product: Array<string>;
+  selectAccount?: boolean;
   token?: string;
   webhook?: string;
   countryCodes?: string[];
+  receivedRedirectUri?: string;
+  isWebview?: boolean;
 }

@@ -32,7 +32,7 @@ export class NgxPlaidLinkDirective {
   @Output() Success: EventEmitter<PlaidOnSuccessArgs> = new EventEmitter();
 
   @Input() clientName: string;
-  @Input() publicKey: string;
+  
 
   @HostBinding('disabled') disabledButton: boolean;
 
@@ -41,19 +41,28 @@ export class NgxPlaidLinkDirective {
     apiVersion: "v2",
     env: "sandbox",
     institution: null,
+    selectAccount: false,
+    publicKey: null,
     token: null,
     webhook: "",
     product: ["auth"],
-    countryCodes: ["US"]
+    countryCodes: ["US"],
+    receivedRedirectUri: null,
+    isWebview: false,
   };
 
+  @Input() publicKey?: string = this.defaultProps.publicKey;
   @Input() apiVersion?: string = this.defaultProps.apiVersion;
   @Input() env?: string = this.defaultProps.env;
   @Input() institution?: string = this.defaultProps.institution;
   @Input() product?: Array<string> = this.defaultProps.product;
+  @Input() selectAccount?: boolean = this.defaultProps.selectAccount;
   @Input() token?: string = this.defaultProps.token;
   @Input() webhook?: string = this.defaultProps.webhook;
   @Input() countryCodes?: string[] = this.defaultProps.countryCodes;
+  @Input() receivedRedirectUri?: string = this.defaultProps.receivedRedirectUri;
+  @Input() isWebview?: boolean = this.defaultProps.isWebview;
+
 
   constructor(private plaidLinkLoader: NgxPlaidLinkService) {
     this.disabledButton = true;
@@ -72,8 +81,11 @@ export class NgxPlaidLinkDirective {
         onExit: (err, metadata) => this.onExit(err, metadata),
         onEvent: (eventName, metadata) => this.onEvent(eventName, metadata),
         onLoad: () => this.onLoad(),
+        selectAccount: this.selectAccount,
         token: this.token || null,
-        webhook: this.webhook || null
+        webhook: this.webhook || null,
+        receivedRedirectUri: this.receivedRedirectUri,
+        isWebview: this.isWebview
       });
     this.disabledButton = false;
     this.plaidLinkHandler = handler;
